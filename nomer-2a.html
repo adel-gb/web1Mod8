@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Tambah Data Kamar</title>
+    <link rel="stylesheet" href="../css/styleNo2a.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Form Tambah Data Kamar</h1>
+        <form id="dataKamarForm">
+            <table>
+                <tr>
+                    <td><label for="idKamar">Id Kamar:</label></td>
+                    <td><input type="text" id="idKamar" name="idKamar" required></td>
+                </tr>
+                <tr>
+                    <td><label for="gambarRuangan">Gambar Ruangan:</label></td>
+                    <td><input type="file" id="gambarRuangan" name="gambarRuangan" required></td>
+                </tr>
+                <tr>
+                    <td><label for="jenisKamar">Jenis Kamar:</label></td>
+                    <td><select id="jenisKamar" name="jenisKamar" required>
+                        <option value="">--Pilih Jenis Kamar--</option>
+                        <option value="standard">Standard Room</option>
+                        <option value="deluxe">Deluxe Room</option>
+                        <option value="single">Single Room</option>
+                        <option value="double">Double Room</option>
+                        <option value="twin">Twin Room</option>
+                        <option value="family">Family Room</option>
+                        <option value="suite">Suite</option>
+                        <option value="presidentialSuite">Presidential Suite</option>
+                    </select>
+                </tr>
+                <tr>
+                    <td><label for="harga">Harga:</label></td>
+                    <td><input type="number" id="harga" name="harga" required></td>
+                </tr>
+                <tr>
+                    <td><label for="fasilitas">Fasilitas:</label></td>
+                    <td>
+                        <input type="checkbox" id="ac" name="fasilitas[]" value="AC">
+                        <label for="ac">AC</label><br>
+                        <input type="checkbox" id="kulkas" name="fasilitas[]" value="kulkas">
+                        <label for="wifi">Kulkas</label><br>
+                        <input type="checkbox" id="mejaKursi" name="fasilitas[]" value="mejaKursi">
+                        <label for="sarapan">Meja dan Kursi sederhana</label><br>
+                        <input type="checkbox" id="ruangTamu" name="fasilitas[]" value="ruangTamu">
+                        <label for="sarapan">Ruang Tamu</label><br>
+                        <input type="checkbox" id="dapurKecil" name="fasilitas[]" value="dapurKecil">
+                        <label for="sarapan">Dapur Kecil</label><br>
+                        <input type="checkbox" id="wifi" name="fasilitas[]" value="wifi">
+                        <label for="sarapan">WiFi</label><br>
+                        <input type="checkbox" id="sarapan" name="fasilitas[]" value="Sarapan">
+                        <label for="sarapan">Sarapan</label><br>
+                        <input type="checkbox" id="kolam" name="fasilitas[]" value="Kolam Renang">
+                        <label for="kolam">Kolam Renang</label><br><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button name="save" value="simpan" style="background-color: blue; 
+                            color: white">Simpan</button>
+                        <button type="reset" name="cancel" value="batal" 
+                            style="background-color: yellow">Batal</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+

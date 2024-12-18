@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menampilkan dan Menyembunyikan Gambar</title>
+    <script src="../JS/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #ffc904;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Menampilkan dan Menyembunyikan Gambar</h1>
+    <button id="tombol">Tampilkan Gambar</button>
+    <img id="gambar" src="../gambar/deluxeRoom.jpg" alt="deluxeRoom">
+
+    <script>
+        $(document).ready(function(){
+            $('#tombol').click(function(){
+                $('#gambar').toggle();
+
+                if ($('#gambar').is(':visible')) {
+                    $('#tombol').text('Sembunyikan Gambar');
+                } else {
+                    $('#tombol').text('Tampilkan Gambar');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulasi Konten dengan jQuery</title>
+    <script src="../JS/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        div, input {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manipulasi Konten</h1>
+    <div id="fakultas">fkom</div>
+    <input type="text" id="universitas" value="uniku">
+    <button id="ubahKonten">Ubah Konten</button>
+
+    <script>
+        $(document).ready(function(){
+            $('#ubahKonten').click(function(){
+                $('#fakultas').text('fakultas ilmu komputer');
+                $('#universitas').val('universitas kuningan');
+            });
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px 5px;
+            vertical-align: top;
+        }
+        input, select {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+        }
+        .button {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+        }
+        .button-batal {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .error {
+            color: red;
+            font-size: 0.85em;
+            display: none;
+        }
+        .resume {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        .success {
+            color: green;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="../JS/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>Form Pemesanan</h1>
+    <form id="formPemesanan">
+        <table border="0">
+            <tr>
+                <td><label for="nama">Nama Pemesan:</label></td>
+                <td><input type="text" id="nama" required></td>
+            </tr>
+            <tr>
+                <td><label for="jenisKelamin">Jenis Kelamin:</label></td>
+                <td>
+                    <select id="jenisKelamin" required>
+                        <option value="">--Pilih Jenis Kelamin--</option>
+                        <option value="Laki-Laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="identitas">Nomor Identitas (16 digit):</label></td>
+                <td>
+                    <input type="text" id="identitas" required>
+                    <span class="error" id="errorIdentitas">Nomor identitas harus 16 digit angka.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="tipeKamar">Tipe Kamar:</label></td>
+                <td>
+                    <select id="tipeKamar" required>
+                        <option value="">--Pilih Tipe Kamar--</option>
+                        <option value="Standar">Standar</option>
+                        <option value="Deluxe">Deluxe</option>
+                        <option value="Family">Family</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="tanggalPesan">Tanggal Pesan (dd/mm/yyyy):</label></td>
+                <td><input type="date" id="tanggalPesan" required></td>
+            </tr>
+            <tr>
+                <td><label for="durasiMenginap">Durasi Menginap (hari):</label></td>
+                <td>
+                    <input type="number" id="durasiMenginap" min="1" required>
+                    <span class="error" id="errorDurasi">Harus diisi dengan angka.</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <input type="checkbox" id="breakfast"> Termasuk Breakfast (+ Rp 80.000/hari)
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="button" class="button" id="simpanButton">Simpan</button>
+                    <button type="button" class="button-batal" id="batalButton">Batal</button>
+                </td>
+            </tr>
+        </table> 
+    </form>
+
+    <div id="resumePemesanan" class="resume" style="display:none;">
+        <h2>Resume Pemesanan</h2>
+        <p><strong>Nama Pemesan:</strong> <span id="outputNama"></span></p>
+        <p><strong>Nomor Identitas:</strong> <span id="outputIdentitas"></span></p>
+        <p><strong>Jenis Kelamin:</strong> <span id="outputJenisKelamin"></span></p>
+        <p><strong>Tipe Kamar:</strong> <span id="outputTipeKamar"></span></p>
+        <p><strong>Durasi Menginap:</strong> <span id="outputDurasi"></span> hari</p>
+        <p><strong>Diskon:</strong> <span id="outputDiskon"></span></p>
+        <p><strong>Total Bayar:</strong> Rp <span id="outputTotal"></span></p>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#simpanButton').click(function() {
+                const nama = $('#nama').val().trim();
+                const jenisKelamin = $('#jenisKelamin').val();
+                const identitas = $('#identitas').val().trim();
+                const tipeKamar = $('#tipeKamar').val();
+                const durasiMenginap = $('#durasiMenginap').val().trim();
+                const breakfast = $('#breakfast').prop('checked');
+
+                // Validasi Nomor Identitas
+                const errorIdentitas = $('#errorIdentitas');
+                if (identitas.length !== 16 || isNaN(identitas)) {
+                    errorIdentitas.show();
+                    return;
+                } else {
+                    errorIdentitas.hide();
+                }
+
+                // Validasi Durasi Menginap
+                const errorDurasi = $('#errorDurasi');
+                if (durasiMenginap === '' || isNaN(durasiMenginap) || durasiMenginap <= 0) {
+                    errorDurasi.show();
+                    return;
+                } else {
+                    errorDurasi.hide();
+                }
+
+                // Harga berdasarkan tipe kamar
+                let hargaKamar = 0;
+                if (tipeKamar === 'Standar') hargaKamar = 1300000;
+                else if (tipeKamar === 'Deluxe') hargaKamar = 1800000;
+                else if (tipeKamar === 'Family') hargaKamar = 2200000;
+
+                // Biaya tambahan breakfast
+                const biayaBreakfast = breakfast ? 80000 : 0;
+
+                // Total bayar awal
+                let totalBayar = (hargaKamar + biayaBreakfast) * durasiMenginap;
+
+                // Diskon jika durasi menginap > 3 hari
+                let diskon = 'Tidak';
+                if (durasiMenginap > 3) {
+                    totalBayar *= 0.9; // Diskon 10%
+                    diskon = 'Ya (10%)';
+                }
+
+                // Menampilkan hasil
+                $('#outputNama').text(nama);
+                $('#outputIdentitas').text(identitas);
+                $('#outputJenisKelamin').text(jenisKelamin);
+                $('#outputTipeKamar').text(tipeKamar);
+                $('#outputDurasi').text(durasiMenginap);
+                $('#outputDiskon').text(diskon);
+                $('#outputTotal').text(totalBayar.toLocaleString());
+
+                $('#resumePemesanan').show();
+            });
+
+            $('#batalButton').click(function() {
+                // Mereset form dan menyembunyikan resume
+                $('#formPemesanan')[0].reset();
+                $('#resumePemesanan').hide();
+                $('.error').hide();
+            });
+        });
+    </script>
+</body>
+</html>

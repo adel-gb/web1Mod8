@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Tambah Data Kamar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button[name="save"] {
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button[name="cancel"] {
+            background-color: yellow;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .error {
+            color: red;
+            font-size: 0.85em;
+            display: none;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Tambah Data Kamar</h1>
+    <form id="formKamar" method="post" action="simpan_data_kamar.html">
+        <table border="0">
+            <tr>
+                <td><label for="idKamar">Id Kamar:</label></td>
+                <td>
+                    <input type="number" id="idKamar" name="idKamar" required>
+                    <span class="error" id="errorIdKamar">ID kamar harus diisi.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="gambar">Gambar Ruangan:</label></td>
+                <td>
+                    <input type="file" id="gambar" name="gambar" accept="image/*" required>
+                    <span class="error" id="errorGambar">Gambar harus dipilih.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="jenisKamar">Jenis Kamar:</label></td>
+                <td>
+                    <select id="jenisKamar" name="jenisKamar" required>
+                        <option value="">--Pilih Jenis Kamar--</option>
+                        <option value="standard">Standard Room</option>
+                        <option value="deluxe">Deluxe Room</option>
+                        <option value="single">Single Room</option>
+                        <option value="double">Double Room</option>
+                        <option value="twin">Twin Room</option>
+                        <option value="family">Family Room</option>
+                        <option value="suite">Suite</option>
+                        <option value="presidentialSuite">Presidential Suite</option>
+                    </select>
+                    <span class="error" id="errorJenisKamar">Jenis kamar harus dipilih.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="harga">Harga per Malam (Rp):</label></td>
+                <td>
+                    <input type="number" id="harga" name="harga" min="0" required>
+                    <span class="error" id="errorHarga">Harga harus diisi dan minimal Rp 0.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="fasilitas">Fasilitas:</label></td>
+                <td>
+                    <input type="checkbox" id="ac" name="fasilitas[]" value="AC">
+                    <label for="ac">AC</label><br>
+                    <input type="checkbox" id="kulkas" name="fasilitas[]" value="kulkas">
+                    <label for="kulkas">Kulkas</label><br>
+                    <input type="checkbox" id="mejaKursi" name="fasilitas[]" value="mejaKursi">
+                    <label for="mejaKursi">Meja dan Kursi sederhana</label><br>
+                    <input type="checkbox" id="ruangTamu" name="fasilitas[]" value="ruangTamu">
+                    <label for="ruangTamu">Ruang Tamu</label><br>
+                    <input type="checkbox" id="dapurKecil" name="fasilitas[]" value="dapurKecil">
+                    <label for="dapurKecil">Dapur Kecil</label><br>
+                    <input type="checkbox" id="wifi" name="fasilitas[]" value="wifi">
+                    <label for="wifi">WiFi</label><br>
+                    <input type="checkbox" id="sarapan" name="fasilitas[]" value="Sarapan">
+                    <label for="sarapan">Sarapan</label><br>
+                    <input type="checkbox" id="kolam" name="fasilitas[]" value="Kolam Renang">
+                    <label for="kolam">Kolam Renang</label><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button name="save" value="simpan" onclick="validasiForm(event)">Simpan</button>
+                    <button type="reset" name="cancel" value="batal">Batal</button>
+                </td>
+            </tr>
+        </table>
+        <div id="successMessage" class="success" style="display: none;">
+            Data kamar berhasil disimpan!
+        </div>
+    </form>
+
+    <script>
+        function validasiForm(event) {
+            event.preventDefault(); // Mencegah submit form langsung
+            
+            const idKamar = document.getElementById("idKamar").value.trim();
+            const gambar = document.getElementById("gambar").value.trim();
+            const jenisKamar = document.getElementById("jenisKamar").value;
+            const harga = document.getElementById("harga").value.trim();
+            const fasilitas = document.querySelectorAll('input[name="fasilitas[]"]:checked');
+
+            const errorIdKamar = document.getElementById("errorIdKamar");
+            const errorGambar = document.getElementById("errorGambar");
+            const errorJenisKamar = document.getElementById("errorJenisKamar");
+            const errorHarga = document.getElementById("errorHarga");
+            const successMessage = document.getElementById("successMessage");
+
+            // Reset pesan error
+            errorIdKamar.style.display = "none";
+            errorGambar.style.display = "none";
+            errorJenisKamar.style.display = "none";
+            errorHarga.style.display = "none";
+            successMessage.style.display = "none";
+
+            let valid = true;
+
+            if (!idKamar) {
+                errorIdKamar.style.display = "block";
+                valid = false;
+            }
+            if (!gambar) {
+                errorGambar.style.display = "block";
+                valid = false;
+            }
+            if (!jenisKamar) {
+                errorJenisKamar.style.display = "block";
+                valid = false;
+            }
+            if (!harga || parseInt(harga) < 0) {
+                errorHarga.style.display = "block";
+                valid = false;
+            }
+
+            if (valid) {
+                successMessage.style.display = "block";
+                console.log("Data Kamar Disimpan:", { idKamar, gambar, jenisKamar, harga, fasilitas: 
+                    Array.from(fasilitas).map(f => f.value) });
+                document.getElementById("formKamar").reset();
+            }
+        }
+    </script>
+</body>
+</html>
+

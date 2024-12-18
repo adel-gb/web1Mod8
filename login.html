@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdc600;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: orange;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: rgb(215, 145, 17);
+        }
+        .message {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="button" onclick="validate()">Login</button>
+        </form>
+        <div class="message" id="message"></div>
+    </div>
+    
+    <script>
+        function validate() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var message = document.getElementById("message");
+
+            if (username === "" || password === "") {
+                message.style.color = "red";
+                message.innerHTML = "Username dan Password tidak boleh kosong!";
+            } else if (username === "Adella Ukhti" && password === "kuningan123") {
+                message.style.color = "skyblue";
+                message.innerHTML = "Login berhasil!";
+            } else {
+                message.style.color = "red";
+                message.innerHTML = "Login gagal! Username atau Password salah.";
+            }
+        }
+    </script>
+</body>
+</html>

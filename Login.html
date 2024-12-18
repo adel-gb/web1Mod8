@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <table border="0">
+            <tr>
+                <td><label for="username">Username:</label></td>
+                <td><input type="text" id="username" name="username"></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td><input type="password" id="password" name="password"></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="checkLogin()">Login</button></td>
+            </tr>
+        </table>    
+    </form>
+
+    <script>
+        function checkLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === '123') {
+                alert('Login Sukses');
+                window.location.href = 'indeks.html';
+            } else {
+                alert('Login Gagal');
+                window.location.href = 'Login.html';
+            }
+        }
+    </script>
+</body>
+</html>
+
+

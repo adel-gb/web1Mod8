@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Data Fasilitas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px 5px;
+            vertical-align: top;
+        }
+        input, button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        button {
+            cursor: pointer;
+        }
+        button[name="save"] {
+            background-color: blue;
+            color: #fff;
+            border: none;
+        }
+        button[name="cancel"] {
+            background-color: yellow;
+            color: #000;
+            border: none;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            display: none;
+        }
+        .success {
+            margin-top: 20px;
+            text-align: center;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Tambah Data Fasilitas</h1>
+    <form id="formFasilitas" method="post" action="simpan_data_fasilitas.html">
+        <table border="0">
+            <tr>
+                <td><label for="idFasilitas">ID Fasilitas:</label></td>
+                <td>
+                    <input type="number" id="idFasilitas" name="idFasilitas" required>
+                    <span class="error" id="errorIdFasilitas">ID fasilitas harus diisi.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="namaFasilitas">Nama Fasilitas:</label></td>
+                <td>
+                    <input type="text" id="namaFasilitas" name="namaFasilitas" required>
+                    <span class="error" id="errorNamaFasilitas">Nama fasilitas harus diisi.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="hargaWeekend">Harga Weekend (Rp):</label></td>
+                <td>
+                    <input type="number" id="hargaWeekend" name="hargaWeekend" min="0" required>
+                    <span class="error" id="errorHargaWeekend">Harga weekend harus angka positif.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="hargaWeekday">Harga Weekday (Rp):</label></td>
+                <td>
+                    <input type="number" id="hargaWeekday" name="hargaWeekday" min="0" required>
+                    <span class="error" id="errorHargaWeekday">Harga weekday harus angka positif.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="kuota">Kuota:</label></td>
+                <td>
+                    <input type="number" id="kuota" name="kuota" min="1" required>
+                    <span class="error" id="errorKuota">Kuota harus lebih dari 0.</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="jamBuka">Jam Buka:</label></td>
+                <td>
+                    <input type="time" id="jamBuka" name="jamBuka" required>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="jamTutup">Jam Tutup:</label></td>
+                <td>
+                    <input type="time" id="jamTutup" name="jamTutup" required>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button name="save" value="simpan" onclick="validasiForm(event)">Simpan</button>
+                    <button type="reset" name="cancel" value="batal">Batal</button>
+                </td>
+            </tr>
+        </table>
+        <div id="successMessage" class="success" style="display: none;">
+            Data fasilitas berhasil disimpan!
+        </div>
+    </form>
+
+    <script>
+        // JavaScript untuk validasi form
+        function validasiForm(event) {
+            event.preventDefault(); // Mencegah form submit langsung
+            
+            // Ambil nilai dari input
+            const idFasilitas = document.getElementById("idFasilitas").value.trim();
+            const namaFasilitas = document.getElementById("namaFasilitas").value.trim();
+            const hargaWeekend = document.getElementById("hargaWeekend").value.trim();
+            const hargaWeekday = document.getElementById("hargaWeekday").value.trim();
+            const kuota = document.getElementById("kuota").value.trim();
+            
+            // Ambil elemen error
+            const errorIdFasilitas = document.getElementById("errorIdFasilitas");
+            const errorNamaFasilitas = document.getElementById("errorNamaFasilitas");
+            const errorHargaWeekend = document.getElementById("errorHargaWeekend");
+            const errorHargaWeekday = document.getElementById("errorHargaWeekday");
+            const errorKuota = document.getElementById("errorKuota");
+            const successMessage = document.getElementById("successMessage");
+
+            // Reset error
+            errorIdFasilitas.style.display = "none";
+            errorNamaFasilitas.style.display = "none";
+            errorHargaWeekend.style.display = "none";
+            errorHargaWeekday.style.display = "none";
+            errorKuota.style.display = "none";
+            successMessage.style.display = "none";
+
+            // Validasi
+            let valid = true;
+
+            if (!idFasilitas) {
+                errorIdFasilitas.style.display = "block";
+                valid = false;
+            }
+            if (!namaFasilitas) {
+                errorNamaFasilitas.style.display = "block";
+                valid = false;
+            }
+            if (!hargaWeekend || parseInt(hargaWeekend) <= 0) {
+                errorHargaWeekend.style.display = "block";
+                valid = false;
+            }
+            if (!hargaWeekday || parseInt(hargaWeekday) <= 0) {
+                errorHargaWeekday.style.display = "block";
+                valid = false;
+            }
+            if (!kuota || parseInt(kuota) <= 0) {
+                errorKuota.style.display = "block";
+                valid = false;
+            }
+
+            // Jika valid, tampilkan pesan sukses
+            if (valid) {
+                successMessage.style.display = "block";
+                console.log("Data fasilitas disimpan:", {
+                    idFasilitas,
+                    namaFasilitas,
+                    hargaWeekend,
+                    hargaWeekday,
+                    kuota
+                });
+
+                // Reset form
+                document.getElementById("formFasilitas").reset();
+            }
+        }
+    </script>
+</body>
+</html>
+
